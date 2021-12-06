@@ -8,7 +8,7 @@ import { useGetSpecificDevice } from "hooks/useGetSpecificDevice";
 import { useDeleteListDevice } from "hooks/useDeleteDevices";
 import { getSeniorMainCarers, getSeniorSubCarers } from "services/seniors/seniorService";
 import format from "date-fns/format";
-import ConfirmPopup from "views/maintenance/components/dialog/ConfirmPopup";
+import ConfirmPopup from "views/management/components/dialog/ConfirmPopup";
 const { TextArea } = Input;
 const DeviceDetail = () => {
   let url = window.location.pathname;

@@ -1,7 +1,7 @@
 import { notification } from "antd";
 import api from "api";
-import { useQuery, useMutation, useQueryClient, UseMutationResult } from "react-query";
-import { Device, Wearers } from "services/types";
+import { useMutation, useQueryClient, UseMutationResult } from "react-query";
+import { Device } from "services/types";
 
 export interface DeviceResponse {
   data: Array<Device>;

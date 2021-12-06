@@ -1,8 +1,7 @@
 import axios from "axios";
 import { notification } from "antd";
 
-export const BASE_URL = `http://52.29.142.87:8120//admin/v1/api`; //QA
-// export const BASE_URL = `http://192.168.100.129:8080/admin/v1/api`;   //Customer
+export const BASE_URL = `http://localhost:5000/api`; //QA
 
 const instance = axios.create({
     baseURL: BASE_URL,

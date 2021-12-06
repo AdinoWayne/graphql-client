@@ -9,7 +9,7 @@ import format from 'date-fns/format';
 import { useModifySenior } from "hooks/useModifySenior";
 import { UserWearers } from "services/types";
 import SeniorDeviceList from "./SeniorDeviceList";
-import ConfirmPopup from "views/maintenance/components/dialog/ConfirmPopup";
+import ConfirmPopup from "views/management/components/dialog/ConfirmPopup";
 import { isNumeric } from "services/string";
 import { phoneValidate } from "services/formServices";
 

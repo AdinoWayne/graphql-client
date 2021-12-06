@@ -15,7 +15,6 @@ import DeviceFilterDate from 'views/management/components/DeviceFilterDate';
 import { useHistory } from 'react-router-dom';
 import { Device } from 'services/types';
 import format from 'date-fns/format';
-import BatchRegistrationPopup from './BatchRegistrationPopup';
 import { useDeleteListDevice } from 'hooks/useDeleteDevices';
 import ConnectSeniorPopup from './Device/ConnectSeniorPopup';
 import { useDisconnectSenior } from 'services/devices/deviceService';
@@ -257,10 +256,6 @@ const DeviceList: React.FC = () => {
                     setRegisterDevice={setRegisterDevice}
                     runRegister={handleShouldLoading}
                 ></DeviceRegistrationPopup>
-                <BatchRegistrationPopup 
-                    isOpen={isOpenBatchRegister}
-                    setIsOpen={setIsOpenBatchRegister}
-                />
                 {
                     openConnectPopup && 
                     <ConnectSeniorPopup
