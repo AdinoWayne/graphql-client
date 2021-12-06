@@ -1,0 +1,39 @@
+.row-flex {
+    display: flex;
+    align-items: center;
+}
+
+.flex {
+    display: flex !important;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.row-end {
+    display: flex;
+    justify-content: flex-end;;
+}
+
+
+.justify-center {
+    justify-content: center !important;
+}
+.justify-end {
+    justify-content: flex-end !important;
+}
+.justify-start {
+    justify-content: flex-start !important;
+}
+
+//align-items
+.items-center {
+    align-items: center !important;
+}
+.items-start {
+    align-items: flex-start !important;
+}
+.items-end {
+    align-items: end !important;
+}

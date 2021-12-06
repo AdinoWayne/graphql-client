@@ -1,0 +1,11 @@
+.hidden-md {
+    @media (max-width: 1024px) {
+        display: none !important;
+    }
+}
+
+.hidden-sm {
+    @media (max-width: 767px) {
+        display: none !important;
+    }
+}

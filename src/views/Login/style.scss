@@ -1,0 +1,64 @@
+.login-form-wrap {
+  height: 100vh;
+  color: #fff;
+  .form-position {
+    transform: translate(-50%, 0%);
+    position: fixed;
+    top: 20%;
+    left: calc(50% - 15px);
+    max-width: 460px;
+    width: 100%;
+    .ant-form-item-label
+      > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+      display: none;
+    }
+    .ant-checkbox-checked .ant-checkbox-inner {
+      background-color: white;
+      border-color: gray;
+    }
+    .ant-checkbox-checked .ant-checkbox-inner::after {
+      position: absolute;
+      display: table;
+      border: 2px solid gray;
+      border-top: 0;
+      border-left: 0;
+      transform: rotate(45deg) scale(1) translate(-50%, -50%);
+      opacity: 1;
+      transition: all 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46) 0.1s;
+      content: " ";
+    }
+    .btn-submit-area .ant-form-item-control {
+      align-items: center;
+    }
+    .btn-submit {
+      width: 150px;
+      color: white;
+      background-color: gray;
+      border-radius: 3px;
+    }
+    .login_error {
+      font-size: 12px;
+      color: red;
+    }
+    .forgot-pass {
+      float: right;
+      padding: 4px 20px;
+      border-radius: 25px;
+      border: 1px solid lightgray;
+    }
+    .login-input {
+      border-radius: 40px;
+    }
+    .btn-submit {
+      border-radius: 40px;
+      color: #fff;
+      border-color: #1890ff;
+      background: #1890ff;
+    }
+  }
+}
+.spin-area {
+  display: flex;
+  flex-direction: column;
+  margin-top: 200px;
+}

@@ -1,0 +1,119 @@
+
+
+/*text styles*/
+
+.h1 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+}
+.h2 {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 23px;
+}
+.h3 {
+    font-size: 20px !important;
+    font-weight: normal !important;
+    line-height: 19px !important;
+}
+.h4 {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 19px !important;
+}
+.h5 {
+    font-size: 16px !important;
+    font-weight: normal;
+    line-height: 19px !important;
+}
+.h6 {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    line-height: 16px !important;
+}
+.h7 {
+    font-size: 14px !important;
+    font-weight: normal !important;
+    line-height: 16px !important;
+}
+.h8 {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: 14px !important;
+}
+.h9 {
+    font-size: 12px !important;
+    font-weight: normal !important;
+    line-height: 14px !important;
+}
+.h10 {
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    line-height: 12px !important;
+}
+.h11 {
+    font-size: 10px;
+    font-weight: normal;
+    line-height: 12px;
+}
+
+.phaph {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.text-upper-case {
+    text-transform: uppercase;
+}
+
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+
+.is-pointer, .pointer {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.text-bold {
+    font-weight: bold;
+}
+.text-semi, .text-semi-bold {
+    font-weight: 500;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+a {
+    color: #0c76d8;
+}
+
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.truncate-lines {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.text20 {
+    font-size: 20px;
+}
