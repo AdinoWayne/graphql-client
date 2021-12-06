@@ -96,10 +96,8 @@ export const AuthProvider = ({ children }: { children: any}) => {
         );
         localStorage.setItem('remember', remember.toString());
         localStorage.setItem('user', email.toString());
-        console.log(response);
-        return ;
-        const accessToken = response.data.data['id-token'];
-        const { user } = response.data.data;
+        const accessToken = response.data['token'];
+        const { user } = response.data;
 
         setSession(accessToken)
 
