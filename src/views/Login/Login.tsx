@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useContext, FormEvent, useEffect} from "react";
+import React, { useState, ChangeEvent, useContext, FormEvent} from "react";
 import AuthContext from "contexts/JWTAuthContext";
 import { Button, Form, Input, Checkbox } from "antd";
 import { useHistory } from "react-router-dom";
@@ -144,9 +144,6 @@ const Login: React.FC = () => {
                   Remember me
                 </Checkbox>
               </Form.Item>
-              <span className="forgot-pass" onClick={handleForgotPassword}>
-                Forgot PW?
-              </span>
             </Form.Item>
             <Form.Item className="btn-submit-area" {...tailLayout}>
               <Button className="btn-submit" htmlType="submit" loading={isLoading}>

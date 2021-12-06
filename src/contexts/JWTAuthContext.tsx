@@ -4,13 +4,13 @@ import axios from 'api'
 
 type State = {
     isAuthenticated: boolean
-    isInitialised: boolean
+    isInitialized: boolean
     user: any
 }
 
 const initialState: State = {
     isAuthenticated: false,
-    isInitialised: false,
+    isInitialized: false,
     user: null,
 }
 
@@ -30,7 +30,6 @@ const setSession = (accessToken: string | undefined) => {
         axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
     } else {
         localStorage.removeItem('accessToken')
-        localStorage.removeItem('refreshToken')
         delete axios.defaults.headers.common.Authorization
     }
 }
@@ -81,7 +80,7 @@ const reducer = (state: State , action: any) => {
 const AuthContext = createContext({
     ...initialState,
     method: 'JWT',
-    login: (emailOrPhone: string, password: string, remember: boolean) => Promise.resolve(),
+    login: (email: string, password: string, remember: boolean) => Promise.resolve(),
     logout: () => {},
     register: (email: string, username: string, password: string) => Promise.resolve(),
 })
@@ -89,18 +88,16 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }: { children: any}) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    const login = async (emailOrPhone: string, password: string, remember: boolean) => {
-        const formData = new FormData();
-        formData.append('emailOrPhone', emailOrPhone);
-        formData.append('password', password);
+    const login = async (email: string, password: string, remember: boolean) => {
         const response = await axios.post(
-            `/auth/login`, { 
-                emailOrPhone, password
+            `/auth/sign-in`, { 
+                email, password
             }
         );
         localStorage.setItem('remember', remember.toString());
-        localStorage.setItem('user', emailOrPhone.toString());
-        localStorage.setItem('refreshToken', response.data.data['refresh-token']);
+        localStorage.setItem('user', email.toString());
+        console.log(response);
+        return ;
         const accessToken = response.data.data['id-token'];
         const { user } = response.data.data;
 
@@ -145,9 +142,6 @@ export const AuthProvider = ({ children }: { children: any}) => {
 
                 if (accessToken && isValidToken(accessToken)) {
                     setSession(accessToken)
-                    // const response = await axios.get('/api/auth/profile')
-                    // const { user } = response.data
-
                     dispatch({
                         type: 'INIT',
                         payload: {
@@ -176,10 +170,6 @@ export const AuthProvider = ({ children }: { children: any}) => {
             }
         })()
     }, [])
-
-    if (!state.isInitialised) {
-        return <div>Loading...</div>
-    }
 
     return (
         <AuthContext.Provider
