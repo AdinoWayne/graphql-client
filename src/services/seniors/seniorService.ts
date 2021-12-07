@@ -1,3 +1,4 @@
+import graphql from "api.graphql";
 import api from "api";
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "react-query";
 import { Device, Wearers } from "services/types";
@@ -77,7 +78,7 @@ export const addSeniorAPI = async (value: string): Promise<StoreResponse> => {
 
 export const getSeniorList = async (queryString: string): Promise<SeniorResponse> => {
 	let params:string = queryString;
-	const [PAGE, SENIOR_URL] = ['page', '/seniors'];
+	const PAGE = 'page';
 	if (queryString) {
 		let queryURl = new URLSearchParams(queryString);
 		let page:(string | null | number) = queryURl.get(PAGE);
@@ -90,10 +91,16 @@ export const getSeniorList = async (queryString: string): Promise<SeniorResponse
 		}
 		params = '?' + queryURl.toString();
 	}
+	const query:string = `{
+		posts {
+		  name
+		  text
+		  date
+		}
+	  }`;
+	const variables:object = {};
 
-	const { data } = await api.get(
-		`${SENIOR_URL}${params}`, config
-	);
+	const { data } = await graphql.request(query, variables);
 
 	return data;
 }; 

@@ -23,14 +23,7 @@ const Header: React.FC = () => {
             <HeaderContainer
             >
                 <Row>
-                    <Col span={8}>
-                        <img
-                            alt="Logo"
-                            width={110}
-                            src="/logo-temp.png"
-                        />
-                    </Col>
-                    <Col span={16}>
+                    <Col span={24}>
                         <Row>
                             <ColLogin xs={{ span: 24 }} lg={{ span: 12, offset: 12 }}>
                                 {
@@ -45,9 +38,7 @@ const Header: React.FC = () => {
                             </ColLogin>
                         </Row>
                         <ColRightTop>
-                            <SupportButton>{LANG.TEXT_SUPPORT}</SupportButton>
-                            <Button>{LANG.TEXT_NOTIFICATIONS}</Button>
-                            <Button>{LANG.TEXT_MY_PAGE}</Button>
+                            <SupportButton>{LANG.TEXT_MY_PAGE}</SupportButton>
                         </ColRightTop>
                     </Col>
                 </Row>

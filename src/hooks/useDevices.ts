@@ -168,7 +168,7 @@ export function useDownloadDevices() {
                         activated_at: format(new Date(e.createdDate), 'LLL dd yyyy, hh:mmaaa'),
                         imei: e.deviceUid || '',
                         site: '',
-                        device_type: 'VitaSense Watch'
+                        device_type: 'Watch'
                     })
                 })
                 generate({

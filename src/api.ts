@@ -8,7 +8,6 @@ const instance = axios.create({
 });
 instance.defaults.headers.get["Accept"] = "application/json";
 instance.defaults.headers.post["Accept"] = "application/json";
-instance.defaults.headers.post["Accept"] = "application/json";
 instance.defaults.headers.common['Access-Control-Allow-Origin'] = "*";
 
 instance.interceptors.request.use(function (config) {

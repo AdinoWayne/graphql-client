@@ -142,7 +142,7 @@ const DeviceDetail = () => {
               </div>
               <DeviceItem>
                 <Form.Item label="Device Type">
-                  <span>VitaSense Watch</span>
+                  <span>Watch</span>
                 </Form.Item>
                 <Form.Item label="Belongs to">
                   <span>Care Center 1</span>

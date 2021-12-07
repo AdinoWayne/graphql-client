@@ -39,7 +39,7 @@ const SeniorDeviceList = (props: { wearerId: string, devices: { deviceName: stri
                         {localDevices !== null && localDevices.map((device: any, index: number) => (
                             <div className="device-item" key={index}>
                                 <span>
-                                    {index + 1}. VitaSense Watch
+                                    {index + 1}. Watch
                                 </span>
                                 <Button className="detail-button" onClick={() => {
                                     history.push(`/management/devices/${device.deviceId}`)
