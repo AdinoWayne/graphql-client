@@ -158,10 +158,14 @@ export interface Senior {
   reminder: string;
   description: string;
 }
-export interface SeniorResponse {
-  data: Array<Senior>;
-  total: number;
-  status: number;
+export interface IPost {
+  name: string;
+  text: string;
+  date: Date;
+}
+
+export interface IPostResponse {
+  posts: Array<IPost>;
 }
 export interface SpecialSeniorResponse {
   status: number;

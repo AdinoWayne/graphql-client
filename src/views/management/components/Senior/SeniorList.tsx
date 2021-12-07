@@ -14,7 +14,6 @@ import { ManagementContext } from 'contexts/ManagementContext';
 import { useHistory } from 'react-router-dom';
 import { useDeleteListSenior } from "services/seniors/seniorService";
 import format from 'date-fns/format';
-import ConnectPopup from './ConnectPopup';
 import { Senior } from 'services/types';
 
 const SeniorList: React.FC = () => {
@@ -34,8 +33,6 @@ const SeniorList: React.FC = () => {
 
     const [isStoreLoading, setIsStoreLoading] = useState<boolean>(false);
 
-    const [isOpenConnect, setIsOpenConnect] = useState<boolean>(false);
-
     useEffect(() => {
         setIsFreezing(deleteLoading)
     }, [deleteLoading])
@@ -43,16 +40,16 @@ const SeniorList: React.FC = () => {
     const columns = [
         {
             title: 'Created At',
-            dataIndex: 'createdDate',
-            key: 'createdDate',
+            dataIndex: 'date',
+            key: 'date',
             render: (text: string, record: Object) => {
                 return <div>{format(new Date(text), 'LLL dd yyyy, hh:mmaaa')}</div>
             }
         },
         {
             title: 'Senior ID',
-            dataIndex: 'wearerId',
-            key: 'wearerId',
+            dataIndex: '_id',
+            key: '_id',
         },
         {
           title: 'Name',
@@ -60,15 +57,9 @@ const SeniorList: React.FC = () => {
           key: 'name',
         },
         {
-          title: 'Site',
-          dataIndex: 'site',
-          key: 'site',
-        },
-        {
-            title: 'Device',
-            dataIndex: 'devices',
-            key: 'devices',
-            render: (text: Array<any>, row: any) => (<span>{text ? text.length : 0}</span>)
+          title: 'Content',
+          dataIndex: 'text',
+          key: 'text',
         },
         {
           title: 'More',
@@ -82,9 +73,6 @@ const SeniorList: React.FC = () => {
           key: 'action',
         }
     ];
-    const handleRefresh = ():void => {
-        queryClient.invalidateQueries("seniors");
-    }
 
     const handleRegister = ():void => {
         setRegisterSenior(true);
@@ -135,7 +123,7 @@ const SeniorList: React.FC = () => {
                     </Col>
                 </Space>
                 <SpaceTable>
-                  <Typography>{LANG.LABEL_SENIOR_LIST_TOTAL} {data ? data.total : 0} {LANG.LABEL_SENIORS}</Typography>
+                  <Typography>{LANG.LABEL_SENIOR_LIST_TOTAL} {data && data.posts ? data.posts.length : 0} {LANG.LABEL_SENIORS}</Typography>
                   <Row>
                     <Button disabled={isFreezing} loading={isStoreLoading} type="primary" onClick={handleRegister}>{LANG.LABEL_BUTTON_REGISTER}</Button>
                     <Button disabled={isFreezing || !listDelete.length} loading={deleteLoading} type="primary" danger onClick={handleDelete}>{LANG.LABEL_BUTTON_DELETE}</Button>
@@ -143,8 +131,8 @@ const SeniorList: React.FC = () => {
                 </SpaceTable>
                 <BaseTable
                     columns={columns}
-                    total={data ? data.total : 0}
-                    dataSource={data ? data.data : data}
+                    total={data && data.posts ? data.posts.length : 0}
+                    dataSource={data && data.posts ? data.posts : []}
                     loading={isFetching}
                     rowSelection={{preserveSelectedRowKeys: true, onChange: handleCheckboxTable}}
                     rowKey={'wearerId'}
@@ -154,15 +142,6 @@ const SeniorList: React.FC = () => {
                     setRegisterSenior={setRegisterSenior}
                     runRegister={handleShouldLoading}
                 ></SeniorRegistrationPopup>
-                {
-                    isOpenConnect ? 
-                    <ConnectPopup
-                    seniorId={wearerIdConnectRef.current}
-                    callbackFn={handleRefresh}
-                    onClose={() => setIsOpenConnect(false)}
-                    isOpen={isOpenConnect}
-                    setIsOpen={setIsOpenConnect} /> : null
-                }
             </SeniorListContainer>
         </>
     )
