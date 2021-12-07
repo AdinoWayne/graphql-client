@@ -1,22 +1,21 @@
 import Button from 'components/Button/Button';
-import { ControlOutlined, RightOutlined } from '@ant-design/icons';
-import { Col, Dropdown, Menu, Row, Space, Typography } from 'antd';
+import { RightOutlined } from '@ant-design/icons';
+import { Col, Row, Space, Typography } from 'antd';
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import 'antd/dist/antd.css';
 import BaseTable from 'components/Table/BaseTable';
 import styled from 'styled-components';
 import Searchbox from 'components/Searchbox/Searchbox';
-import useSeniors, { useDownloadSeniors } from 'hooks/useSeniors';
+import useSeniors from 'hooks/useSeniors';
 import SeniorRegistrationPopup from "views/management/components/Senior/SeniorRegistrationPopup";
 import queryClient from 'queryClient';
 import DeviceFilterDate from 'views/management/components/DeviceFilterDate';
 import { ManagementContext } from 'contexts/ManagementContext';
 import { useHistory } from 'react-router-dom';
-import { useDeleteListSenior, Senior } from "services/seniors/seniorService";
-import { Device } from 'services/types';
+import { useDeleteListSenior } from "services/seniors/seniorService";
 import format from 'date-fns/format';
 import ConnectPopup from './ConnectPopup';
-import { addMinutes } from 'date-fns';
+import { Senior } from 'services/types';
 
 const SeniorList: React.FC = () => {
     const history = useHistory();
@@ -40,23 +39,6 @@ const SeniorList: React.FC = () => {
     useEffect(() => {
         setIsFreezing(deleteLoading)
     }, [deleteLoading])
-
-    const menuShow = (row: any) => {
-        return (
-            <Menu>
-                {
-                    row.devices.map((el:Device) => (
-                        <Menu.Item key={el.deviceUid}>
-                            <Button type="text" onClick={() => history.push('/management/devices/' + el.deviceId)}>
-                             {el.deviceUid} Watch
-                            </Button>
-                        </Menu.Item>
-                    ))
-                }
-              
-            </Menu>
-          );
-    }
 
     const columns = [
         {
@@ -91,35 +73,19 @@ const SeniorList: React.FC = () => {
         {
           title: 'More',
           dataIndex: 'action',
-          render: (text: string, row: any) => (
+          render: (_text: string, row: any) => (
             <Space className="table-col-more">
                 <Button onClick={() => history.push('/management/seniors/' + row.wearerId)}>{LANG.LABEL_BUTTON_DETAIL}</Button>
-                {
-                    row.devices && row.devices.length > 0 ? (
-                        <Dropdown overlay={menuShow(row)} placement="bottomLeft">
-                            <Button style={{ minWidth: 121}}>{LANG.LABEL_BUTTON_DEVICE}</Button>
-                        </Dropdown>
-                    ) : (
-                        <Button onClick={() => openConnectPopup(row.wearerId)}>{LANG.LABEL_BUTTON_CONNECT_DEVICE}</Button>
-                    )
-                }
                 <RightOutlined />
             </Space>
           ),
           key: 'action',
         }
     ];
-
-    const openConnectPopup = (wearerId:string):void => {
-        setIsOpenConnect(true);
-        wearerIdConnectRef.current = wearerId;
-    }
-
     const handleRefresh = ():void => {
         queryClient.invalidateQueries("seniors");
     }
 
-    const handleBatchRegistration = ():void => {};
     const handleRegister = ():void => {
         setRegisterSenior(true);
     };
@@ -146,18 +112,12 @@ const SeniorList: React.FC = () => {
         setIsFreezing(value);
     }
 
-    const handleSite = ():void => {};
-
     const handleCheckboxTable = (_selectedRowKeys: React.Key[], selectedRows: any[]) => {
         setListDelete(selectedRows.map((el: Senior) => el.wearerId));
     }
 
-    const handleTag = ():void => {};
+    console.log(data);
 
-    const { download, downloading } = useDownloadSeniors();
-    const onClickDownload = () => {
-        download();
-    }
     return (
         <>
             <SeniorListContainer>
@@ -166,14 +126,10 @@ const SeniorList: React.FC = () => {
                         <DeviceFilterDate></DeviceFilterDate>
                     </Col>
                     <Col className="space-filter-search">
-                        <Row className="filter-site-tag">
-                            <Button disabled icon={<ControlOutlined />} onClick={handleSite}>{LANG.LABEL_FILTER_SITE}</Button>
-                            <Button disabled icon={<ControlOutlined />} onClick={handleTag}>{LANG.LABEL_FILTER_TAG}</Button>
-                        </Row>
                         <Row>
                             <Searchbox 
-                                paramName="seniorName"
-                                placeholder="Senior Name"
+                                paramName="postName"
+                                placeholder="Post Name"
                             />
                         </Row>
                     </Col>
@@ -181,7 +137,6 @@ const SeniorList: React.FC = () => {
                 <SpaceTable>
                   <Typography>{LANG.LABEL_SENIOR_LIST_TOTAL} {data ? data.total : 0} {LANG.LABEL_SENIORS}</Typography>
                   <Row>
-                    <Button disabled={true} onClick={handleBatchRegistration}>{LANG.LABEL_BUTTON_BATCH_REGISTRATION}</Button>
                     <Button disabled={isFreezing} loading={isStoreLoading} type="primary" onClick={handleRegister}>{LANG.LABEL_BUTTON_REGISTER}</Button>
                     <Button disabled={isFreezing || !listDelete.length} loading={deleteLoading} type="primary" danger onClick={handleDelete}>{LANG.LABEL_BUTTON_DELETE}</Button>
                   </Row>
@@ -193,8 +148,6 @@ const SeniorList: React.FC = () => {
                     loading={isFetching}
                     rowSelection={{preserveSelectedRowKeys: true, onChange: handleCheckboxTable}}
                     rowKey={'wearerId'}
-                    onClickDownload={onClickDownload}
-                    downloading={downloading}
                 />
                 <SeniorRegistrationPopup
                     isOpenRegister={isOpenRegister}

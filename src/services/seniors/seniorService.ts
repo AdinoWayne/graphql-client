@@ -1,7 +1,7 @@
 import graphql from "api.graphql";
 import api from "api";
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "react-query";
-import { Device, Wearers } from "services/types";
+import { SeniorResponse, SpecialSeniorResponse, StoreRequest, StoreResponse } from "services/types";
 import { notification } from "antd";
 
 var config = {
@@ -11,60 +11,6 @@ var config = {
     }
 };
 
-export interface Tag {
-    name: string;
-}
-
-export interface UserWearers {
-    createdDate: string;
-	id: number;
-	isDelete: string;
-	modifiedDate: string;
-	user: {
-		nickName: string;
-	};
-	userId: string;
-	userWearerType: string;
-}
-
-export interface Senior {
-    name: string;
-    wearerId: string;
-    createdDate: any;
-    mainCarer: string;
-    subCarer: string;
-    site: string;
-    tag: Array<Tag>;
-    subMobile: string;
-	mobile?: string;
-    address: string;
-    birth: any;
-    genderType: string;
-    height: string;
-    weight: string;
-	userWearers: Array<UserWearers | any>
-    devices: Array<Device | any>;
-    healthAndInactivity: string;
-    reminder: string;
-    description: string;
-}
-export interface SeniorResponse {
-	data: Array<Senior>;
-	total: number;
-	status: number;
-}
-export interface SpecialSeniorResponse {
-	status: number;
-	data: Senior;
-}
-export interface StoreResponse {
-	status: number;
-	data: Senior;
-  }
-  
-export interface StoreRequest {
-	name: string;
-}
 export const addSeniorAPI = async (value: string): Promise<StoreResponse> => {
 	if (!value) {
 		return Promise.reject(new Error("Invalid parameter"));
@@ -100,9 +46,8 @@ export const getSeniorList = async (queryString: string): Promise<SeniorResponse
 	  }`;
 	const variables:object = {};
 
-	const { data } = await graphql.request(query, variables);
-
-	return data;
+	const response = await graphql.request(query, variables);
+	return response;
 }; 
 
 const deleteDevices = async (seniorIds: Array<string>): Promise<{ status: number; data: string}> => {
@@ -158,16 +103,4 @@ const getSeniorById = async (
   
   export function useGetSpecificSenior(id: string) {
 	return useQuery(["specificSenior", id], () => getSeniorById(id));
-}
-
-export const getSeniorMainCarers = (senior: Wearers | null) => {
-	if (!senior) return [];
-	let names = senior?.userWearers?.filter(u => u.userWearerType === 'MAIN').map(e => e.user?.nickName);
-	return names || [];
-}
-  
-export const getSeniorSubCarers = (senior: Wearers | null) => {
-	if (!senior) return [];
-	let names = senior?.userWearers?.filter(u => u.userWearerType === 'SUB').map(e => e.user?.nickName);
-	return names || [];
 }

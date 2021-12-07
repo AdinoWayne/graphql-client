@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom';
 import { useQueryClient } from "react-query";
 import { useGetSpecificDevice } from "hooks/useGetSpecificDevice";
 import { useDeleteListDevice } from "hooks/useDeleteDevices";
-import { getSeniorMainCarers, getSeniorSubCarers } from "services/seniors/seniorService";
 import format from "date-fns/format";
 import ConfirmPopup from "views/management/components/dialog/ConfirmPopup";
 const { TextArea } = Input;
@@ -103,18 +102,6 @@ const DeviceDetail = () => {
                       <Form.Item label="Senior">
                         <span>{senior.name}</span>
                         <Button className="detail-btn" onClick={viewSenior}>Detail</Button>
-                      </Form.Item>
-                    </DeviceItem>
-                    <DeviceItem>
-                      <Form.Item label="Main Carer">
-                        {
-                          getSeniorMainCarers(senior).join(', ')
-                        }
-                      </Form.Item>
-                      <Form.Item label="* Sub Carer">
-                        {
-                          getSeniorSubCarers(senior).join(', ')
-                        }
                       </Form.Item>
                     </DeviceItem>
                   </div>

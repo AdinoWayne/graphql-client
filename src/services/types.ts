@@ -123,3 +123,47 @@ export interface UserUpload {
   email: string;
   phoneNumber: string;
 }
+
+export interface StoreResponse {
+	status: number;
+	data: Senior;
+}
+
+export interface StoreRequest {
+	name: string;
+}
+
+export interface Tag {
+  name: string;
+}
+
+export interface Senior {
+  name: string;
+  wearerId: string;
+  createdDate: any;
+  mainCarer: string;
+  subCarer: string;
+  site: string;
+  tag: Array<Tag>;
+  subMobile: string;
+  mobile?: string;
+  address: string;
+  birth: any;
+  genderType: string;
+  height: string;
+  weight: string;
+  userWearers: Array<UserWearers | any>
+  devices: Array<Device | any>;
+  healthAndInactivity: string;
+  reminder: string;
+  description: string;
+}
+export interface SeniorResponse {
+  data: Array<Senior>;
+  total: number;
+  status: number;
+}
+export interface SpecialSeniorResponse {
+  status: number;
+  data: Senior;
+}

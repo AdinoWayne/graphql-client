@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
 }
 
 const LANG = {
-    TEXT_FOOTER_CUSTOMER_SERVICE: 'Customer Service 1588-1588',
+    TEXT_FOOTER_CUSTOMER_SERVICE: 'GraphQl React Typescript',
     TEXT_PRIVACY_POLICY: 'Privacy Policy',
     TEXT_SITE_MAP: 'Site Map',
     TEXT_TERM_OF_SERVICE: 'Terms Of Service',

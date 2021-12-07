@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import BaseTable from 'components/Table/BaseTable';
 import styled from 'styled-components';
 import Searchbox from 'components/Searchbox/Searchbox';
-import { useDownloadDevices, useDevicesDate } from 'hooks/useDevices';
+import { useDevicesDate } from 'hooks/useDevices';
 import SelectorFilterTop from "views/management/components/SelectorFilterTop";
 import DeviceRegistrationPopup from "views/management/components/DeviceRegistrationPopup";
 import { ManagementContext } from 'contexts/ManagementContext';
@@ -126,10 +126,6 @@ const DeviceList: React.FC = () => {
         }
     ];
 
-    const handleFWUpdate = ():void => {};
-    const handleBatchRegistration = ():void => {
-        setIsOpenBatchRegister(true);
-    };
     const handleRegister = ():void => {
         setRegisterDevice(true);
     };
@@ -199,11 +195,6 @@ const DeviceList: React.FC = () => {
         )
     }
 
-    const { download, downloading } = useDownloadDevices();
-    const onClickDownload = () => {
-        download();
-    }
-
     return (
         <>
             <DeviceListContainer>
@@ -239,16 +230,12 @@ const DeviceList: React.FC = () => {
                 <SpaceTable>
                   <Typography>{LANG.LABEL_DEVICE_LIST_TOTAL} {data ? data.total : 0} {LANG.LABEL_DEVICES}</Typography>
                   <Row>
-                    <Button disabled={true} onClick={handleFWUpdate}>{LANG.LABEL_BUTTON_FW_UPDATE}</Button>
-                    <Button disabled={isFreezing} onClick={handleBatchRegistration}>{LANG.LABEL_BUTTON_BATCH_REGISTRATION}</Button>
                     <Button disabled={isFreezing} type="primary" loading={isStoreLoading} onClick={handleRegister}>{LANG.LABEL_BUTTON_REGISTER}</Button>
                     <Button disabled={isFreezing || !listDelete.length} type="primary" loading={deleteLoading} danger onClick={handleDelete}>{LANG.LABEL_BUTTON_DELETE}</Button>
                   </Row>
                 </SpaceTable>
                 <BaseTable columns={columns} rowSelection={{ preserveSelectedRowKeys: true, onChange: handleCheckboxTable}} total={data ? data.total : 0} dataSource={data ? data.data : data} loading={isFetching} 
                     rowKey={'deviceId'}
-                    onClickDownload={onClickDownload}
-                    downloading={downloading}
                 />
                 <DeviceRegistrationPopup
                     handleRegister={handleRegistration}
