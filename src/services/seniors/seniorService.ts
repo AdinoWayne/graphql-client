@@ -4,13 +4,6 @@ import { useMutation, UseMutationResult, useQuery, useQueryClient } from "react-
 import { IPostResponse, SpecialSeniorResponse, StoreRequest, StoreResponse } from "services/types";
 import { notification } from "antd";
 
-var config = {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "multipart/form-data"
-    }
-};
-
 export const addSeniorAPI = async (value: string): Promise<StoreResponse> => {
 	if (!value) {
 		return Promise.reject(new Error("Invalid parameter"));
@@ -23,28 +16,35 @@ export const addSeniorAPI = async (value: string): Promise<StoreResponse> => {
 };
 
 export const getSeniorList = async (queryString: string): Promise<IPostResponse> => {
-	let params:string = queryString;
-	const PAGE = 'page';
+	let params:Array<{ key: string; value: any}> = [];
+	const arrQuery = ['name', 'page', 'startDate', 'endDate']
 	if (queryString) {
 		let queryURl = new URLSearchParams(queryString);
-		let page:(string | null | number) = queryURl.get(PAGE);
-		if (page) {
-			page = parseInt(page, 10) - 1;
-			if (page < 0) {
-                page = 0;
-            }
-			queryURl.set(PAGE, page.toString());
-		}
-		params = '?' + queryURl.toString();
+		arrQuery.map(element => {
+			if (queryURl.get(element)) {
+				params.push({
+					value: queryURl.get(element),
+					key: element
+				})
+			}
+		})
+
 	}
-	const query:string = `{
-		posts {
-		  name
-		  text
-		  date
+	const query:string = `query($filter: SPost) {
+		searchPosts(filter: $filter) {
+			_id
+			name
+			text
+			date
 		}
-	  }`;
-	const variables:object = {};
+	}`;
+	const variables:{ filter: object } = {
+		filter: {}
+	};
+
+	params.map((element) => {
+		variables.filter[element.key] = element.value
+	})
 
 	const response = await graphql.request(query, variables);
 	return response;
@@ -96,7 +96,7 @@ const getSeniorById = async (
 	if (!seniorId) {
 	  return Promise.reject(new Error("Invalid senior Id"));
 	}
-	const { data } = await api.get(`/seniors/${seniorId}`, config);
+	const { data } = await api.get(`/seniors/${seniorId}`);
   
 	return data;
   };

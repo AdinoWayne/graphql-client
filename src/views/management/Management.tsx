@@ -1,11 +1,10 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import { Space, Tabs } from 'antd';
-import SearchTop from 'components/SearchTop/SearchTop';
+import { Tabs } from 'antd';
 import styled from 'styled-components';
 import DeviceList from 'views/management/components/DeviceList'
 import ManagementProvider from 'contexts/ManagementContext';
-import { NavLink, Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import SeniorList from 'views/management/components/Senior/SeniorList';
 import ConfirmDialog from './components/ConfirmDialog';
 import { useHistory } from 'react-router-dom';
@@ -32,12 +31,6 @@ const Management: React.FC = () => {
     return (
       <ManagementProvider>
         <ManagementContainer>
-          <Space className="search-common">
-            <SearchTop
-              paramName="emailOrPhone"
-              placeholder="User email or mobile"
-            />
-          </Space>
           <Tabs defaultActiveKey={defaultActiveKey} onChange={changeTab}>
             {componentTabs.map(tab => {
               const { title, key } = tab;

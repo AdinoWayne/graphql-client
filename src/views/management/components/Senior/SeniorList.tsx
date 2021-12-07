@@ -116,7 +116,7 @@ const SeniorList: React.FC = () => {
                     <Col className="space-filter-search">
                         <Row>
                             <Searchbox 
-                                paramName="postName"
+                                paramName="name"
                                 placeholder="Post Name"
                             />
                         </Row>
