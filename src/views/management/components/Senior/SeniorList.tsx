@@ -13,7 +13,7 @@ import { ManagementContext } from 'contexts/ManagementContext';
 import { useHistory } from 'react-router-dom';
 import { useDeleteListSenior } from "services/seniorService";
 import format from 'date-fns/format';
-import { Senior } from 'utils/types';
+import { IPost } from 'utils/types';
 
 const SeniorList: React.FC = () => {
     const history = useHistory();
@@ -100,10 +100,8 @@ const SeniorList: React.FC = () => {
     }
 
     const handleCheckboxTable = (_selectedRowKeys: React.Key[], selectedRows: any[]) => {
-        setListDelete(selectedRows.map((el: Senior) => el.wearerId));
+        setListDelete(selectedRows.map((el: IPost) => el._id));
     }
-
-    console.log(data);
 
     return (
         <>

@@ -1,36 +1,31 @@
 import { notification } from "antd";
-import api from "api";
 import { useMutation, useQueryClient, UseMutationResult } from "react-query";
+import { storeComment, storeLike } from "services/seniorService";
+import { ISpecialPostResponse, IStoreCommentRequest, IStoreLikeRequest } from "utils/types";
 
-// Connect Senior
-const ModifySenior = async (seniorId: number | undefined, params: object | undefined): Promise<{ status: number; data: string }> => {
-    if (!seniorId || !params) {
-        return Promise.reject(new Error("Invalid params  or seniorId"));
-    }
-   
-    const { data } = await api.post(
-        `/seniors/${seniorId}/modify`, {
-        ...params
-    }
-    );
-    return data;
-};
-
-export const useModifySenior = (): UseMutationResult<{ status: number; data: string }, any, { seniorId: number, data: object }, any> => {
+export const useModifySenior = (): UseMutationResult<ISpecialPostResponse, any, IStoreCommentRequest, any> => {
     const queryClient = useQueryClient();
 
-    return useMutation((data: { seniorId: number, data: object }) => ModifySenior(data.seniorId, data.data), {
+    return useMutation((data: IStoreCommentRequest) => storeComment(data.postId, data.data), {
         onSuccess: () => {
             queryClient.invalidateQueries("specificSenior");
-            notification.success({
-                message:'Update Senior',
-                description:'Update Senior successfully'
-            })
         },
         onError: () => {
             notification.error({
-                message:'Update Senior',
-                description:'Update Senior error'
+                message:'Update Comment',
+                description:'Update Comment error'
+            })
+        }
+    });
+};
+
+export const usePostLike = (): UseMutationResult<ISpecialPostResponse, any, IStoreLikeRequest, any> => {
+
+    return useMutation((data: IStoreLikeRequest) => storeLike(data.postId), {
+        onError: () => {
+            notification.error({
+                message:'Update Like',
+                description:'Update Like error'
             })
         }
     });

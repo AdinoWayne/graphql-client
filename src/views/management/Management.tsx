@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import ManagementProvider from 'contexts/ManagementContext';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import SeniorList from 'views/management/components/Senior/SeniorList';
-import ConfirmDialog from './components/ConfirmDialog';
+import ConfirmDialog from './components/dialog/ConfirmDialog';
 import { useHistory } from 'react-router-dom';
 
 const componentTabs = [

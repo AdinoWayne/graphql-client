@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Avatar, Button, Card, Divider, Input, Typography, Spin } from "antd";
 import { useHistory } from 'react-router-dom';
 import { useGetSpecificSenior, useDeleteListSenior } from "services/seniorService";
-import { useModifySenior } from "hooks/useModifySenior";
+import { useModifySenior, usePostLike } from "hooks/useModifySenior";
 import ConfirmPopup from "views/management/components/dialog/ConfirmPopup";
 import Meta from "antd/lib/card/Meta";
 import {
@@ -22,12 +22,14 @@ const SeniorDetail: React.FC = () => {
   const { isLoading: deleteLoading, mutate: removeSeniors } = useDeleteListSenior();
 
   const { mutate: modifySenior, isLoading: modifyLoading } = useModifySenior();
+  const { mutate: modifyLike, isLoading: likeLoading } = usePostLike();
 
   const { data, isFetching } = useGetSpecificSenior(id);
 
   const history = useHistory();
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
   const [post, setPost] = useState<any>(null);
+  const commentRef = useRef<any>("");
 
   useEffect(() => {
     if (data) {
@@ -36,10 +38,29 @@ const SeniorDetail: React.FC = () => {
   }, [data]);
 
   const handleSave = () => {
-    const params: any = {};
     modifySenior({
-      seniorId: post._id,
-      data: params
+      postId: post._id,
+      data: commentRef.current
+    });
+  }
+
+  const handleComment = (e):void => {
+    commentRef.current = e.target.value;
+  }
+
+  const handleLike = () => {
+    modifyLike({
+      postId: post._id
+    },
+    {
+      onSuccess: (response: any) => {
+        setPost(preValue => {
+          return {
+            ...preValue,
+            likes: [...response.toggleLike.likes]
+          }
+        })
+      }
     });
   }
 
@@ -70,7 +91,7 @@ const SeniorDetail: React.FC = () => {
       <Card
         style={{ width: "70%", maxWidth: 500 }}
         actions={[
-          <Button icon={<LikeOutlined />}> {post.likes.length}</Button>,
+          <Button icon={<LikeOutlined />} loading={likeLoading} onClick={handleLike}> {post.likes.length}</Button>,
           <Button icon={<CommentOutlined />} loading={modifyLoading} onClick={handleSave}> {post.comments.length}</Button>,
           <Button icon={<DeleteOutlined />} loading={deleteLoading} danger onClick={() => setIsOpenDelete(true)}></Button>,
         ]}
@@ -99,7 +120,7 @@ const SeniorDetail: React.FC = () => {
             />
           ) : null
         }
-        <TextArea className="text-area" style={{ height: 150}}>
+        <TextArea className="text-area" style={{ height: 150}} onChange={handleComment}>
         </TextArea>
       </Card>
       <ConfirmPopup
@@ -122,6 +143,9 @@ const SeniorDetailContainer = styled.div`
   }
   .text-area {
     margin-top: 20px;
+  }
+  .ant-btn {
+    border: 0px;
   }
   .button-container {
     display: flex;

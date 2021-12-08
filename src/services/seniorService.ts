@@ -1,5 +1,4 @@
 import graphql from "api.graphql";
-import api from "api";
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "react-query";
 import { IPostResponse, ISpecialPostResponse, StoreRequest, StoreResponse } from "utils/types";
 import { notification } from "antd";
@@ -20,7 +19,6 @@ export const addSeniorAPI = async (value: string): Promise<StoreResponse> => {
 	};
 	const response = await graphql.request(query, variables);
 	return response;
-
 };
 
 export const getSeniorList = async (queryString: string): Promise<IPostResponse> => {
@@ -60,27 +58,29 @@ export const getSeniorList = async (queryString: string): Promise<IPostResponse>
 	return response;
 }; 
 
-const deleteDevices = async (seniorIds: Array<string>): Promise<{ status: number; data: string}> => {
-	if (seniorIds && seniorIds.length === 0) {
+const destroyPosts = async (postIds: Array<string>): Promise<{ status: number; data: string}> => {
+	if (postIds && postIds.length === 0) {
 		return Promise.reject(new Error("Invalid parameter"));
 	}
-	const { data } = await api.post(
-		`/seniors/delete`, { seniorIds: seniorIds}
-	);
-
-	return data;
+	const query:string = `mutation($postIds: [ID!]) {
+		destroyArrPost(postIds: $postIds) {
+			msg
+		}
+	}`;
+	const variables:{ postIds: string[] } = {
+		postIds: postIds,
+	};
+	const response = await graphql.request(query, variables);
+	return response;
 };
 
 export const useDeleteListSenior = () => {
 	const queryClient = useQueryClient();
 
-	return useMutation((arr: Array<string>) => deleteDevices(arr), {
+	return useMutation((arr: Array<string>) => destroyPosts(arr), {
 		onSuccess: () => {
-            queryClient.invalidateQueries("devices");
             queryClient.invalidateQueries("seniors");
-            queryClient.invalidateQueries(["search_device"]);
             queryClient.removeQueries("specificSenior");
-            queryClient.removeQueries('specificDevice');
 		},
 	});
 };
@@ -114,6 +114,7 @@ const getSeniorById = async (
 			date
 			likes {
 				_id
+				user
 			}
 			comments {
 				_id
@@ -132,4 +133,44 @@ const getSeniorById = async (
   
 export function useGetSpecificSenior(id: string) {
 	return useQuery(["specificSenior", id], () => getSeniorById(id), { retry: 1, refetchOnWindowFocus: false, keepPreviousData: true });
+}
+
+export const storeComment = async (postId: string, data: string): Promise<ISpecialPostResponse> => {
+	if (!data) {
+		return Promise.reject(new Error("Invalid parameter"));
+	}
+	const query = `
+		mutation($postId: ID!, $params: postUpdateInput) {
+			storeComment(postId: $postId, input: $params) { _id }
+		}
+	`;
+	const variables = {
+		params : {
+			text: data,
+		},
+		postId: postId
+	};
+	const response = await graphql.request(query, variables);
+	return response;
+}
+
+export const storeLike = async (postId: string): Promise<ISpecialPostResponse> => {
+	if (!postId) {
+		return Promise.reject(new Error("Invalid parameter"));
+	}
+	const query = `
+		mutation($postId: ID!) {
+			toggleLike(postId: $postId) {
+				_id
+				likes {
+					_id
+				} 
+			}
+		}
+	`;
+	const variables = {
+		postId: postId
+	};
+	const response = await graphql.request(query, variables);
+	return response;
 }
