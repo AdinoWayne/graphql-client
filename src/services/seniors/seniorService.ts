@@ -42,6 +42,7 @@ export const getSeniorList = async (queryString: string): Promise<IPostResponse>
 		filter: {}
 	};
 
+	// eslint-disable-next-line array-callback-return
 	params.map((element) => {
 		variables.filter[element.key] = element.value
 	})

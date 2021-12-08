@@ -1,14 +1,13 @@
 import Button from 'components/Button/Button';
 import { RightOutlined } from '@ant-design/icons';
 import { Col, Row, Space, Typography } from 'antd';
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import 'antd/dist/antd.css';
 import BaseTable from 'components/Table/BaseTable';
 import styled from 'styled-components';
 import Searchbox from 'components/Searchbox/Searchbox';
 import useSeniors from 'hooks/useSeniors';
 import SeniorRegistrationPopup from "views/management/components/Senior/SeniorRegistrationPopup";
-import queryClient from 'queryClient';
 import DeviceFilterDate from 'views/management/components/DeviceFilterDate';
 import { ManagementContext } from 'contexts/ManagementContext';
 import { useHistory } from 'react-router-dom';
@@ -21,8 +20,6 @@ const SeniorList: React.FC = () => {
     const { data, isFetching } = useSeniors();
 
     const [listDelete, setListDelete] = useState<Array<string>>([]);
-
-    let wearerIdConnectRef = useRef("");
 
     const { isLoading: deleteLoading, mutate: removeSeniors} = useDeleteListSenior();
 
@@ -123,7 +120,7 @@ const SeniorList: React.FC = () => {
                     </Col>
                 </Space>
                 <SpaceTable>
-                  <Typography>{LANG.LABEL_SENIOR_LIST_TOTAL} {data && data.posts ? data.posts.length : 0} {LANG.LABEL_SENIORS}</Typography>
+                  <Typography>{LANG.LABEL_SENIOR_LIST_TOTAL} {data && data.searchPosts ? data.searchPosts.length : 0} {LANG.LABEL_SENIORS}</Typography>
                   <Row>
                     <Button disabled={isFreezing} loading={isStoreLoading} type="primary" onClick={handleRegister}>{LANG.LABEL_BUTTON_REGISTER}</Button>
                     <Button disabled={isFreezing || !listDelete.length} loading={deleteLoading} type="primary" danger onClick={handleDelete}>{LANG.LABEL_BUTTON_DELETE}</Button>
@@ -131,8 +128,8 @@ const SeniorList: React.FC = () => {
                 </SpaceTable>
                 <BaseTable
                     columns={columns}
-                    total={data && data.posts ? data.posts.length : 0}
-                    dataSource={data && data.posts ? data.posts : []}
+                    total={data && data.searchPosts ? data.searchPosts.length : 0}
+                    dataSource={data && data.searchPosts ? data.searchPosts : []}
                     loading={isFetching}
                     rowSelection={{preserveSelectedRowKeys: true, onChange: handleCheckboxTable}}
                     rowKey={'wearerId'}
@@ -148,20 +145,13 @@ const SeniorList: React.FC = () => {
 };
 
 const LANG = {
-    LABEL_BUTTON_DOWNLOAD_LIST: 'Download list',
-    LABEL_BUTTON_BATCH_REGISTRATION: 'Batch Registration',
     LABEL_BUTTON_REGISTER: 'Register',
     LABEL_BUTTON_DELETE: 'Delete',
     LABEL_BUTTON_DETAIL: 'Detail',
     LABEL_BUTTON_SAVE: 'Save',
     LABEL_BUTTON_DEVICE: 'Device',
-    LABEL_BUTTON_CONNECT_DEVICE: 'Connect Device',
     LABEL_SENIOR_LIST_TOTAL: 'Senior List - Total',
-    LABEL_SENIORS: 'seniors',
-    LABEL_FILTER_SITE: 'Site',
-    LABEL_FILTER_TAG: "Tag",
-    LABEL_FILTER_WEARER: 'Wearer',
-    LABEL_IMEI_TEXT: 'IMEI'
+    LABEL_SENIORS: 'seniors'
 }
 
 const SeniorListContainer = styled.div`

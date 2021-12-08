@@ -165,7 +165,8 @@ export interface IPost {
 }
 
 export interface IPostResponse {
-  posts: Array<IPost>;
+  posts?: Array<IPost>;
+  searchPosts?: Array<IPost>;
 }
 export interface SpecialSeniorResponse {
   status: number;
