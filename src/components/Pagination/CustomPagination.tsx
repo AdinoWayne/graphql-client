@@ -1,7 +1,6 @@
 import { Button, Pagination } from "antd";
-import { useQueryNumber, useSetQueryParam } from "services/queryString";
+import { useSetQueryParam } from "utils/queryString";
 import styled from "styled-components";
-import { GrPrevious, GrNext } from "react-icons/gr";
 
 interface Props {
   current: number;

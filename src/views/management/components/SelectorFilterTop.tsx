@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import React, { Dispatch, SetStateAction, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import { useQueryString, useSetQueryParam } from 'services/queryString';
+import { useQueryString, useSetQueryParam } from 'utils/queryString';
 
 interface SelectorFilterTopProps {
     paramName: string;
@@ -10,7 +10,7 @@ interface SelectorFilterTopProps {
     callback: Dispatch<SetStateAction<string>>
 }
 
-const SelectorFilterTop = ({ paramName, option, defaultValue, callback }:SelectorFilterTopProps) => {
+const SelectorFilterTop:React.FC<SelectorFilterTopProps> = ({ paramName, option, defaultValue, callback }:SelectorFilterTopProps) => {
 
     const setQueryParam = useSetQueryParam();
     let keyRef = useRef<number>(1);

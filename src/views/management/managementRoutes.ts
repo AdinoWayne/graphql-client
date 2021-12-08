@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react'
 import Management from './Management'
 import SeniorDetail from './components/Senior/SeniorDetail'

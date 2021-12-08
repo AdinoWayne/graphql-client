@@ -1,9 +1,9 @@
 import { useQuery } from "react-query";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { getSeniorList } from "services/seniors/seniorService";
+import { getSeniorList } from "services/seniorService";
 import qs from 'query-string';
-import { getDateObj, getDateUtc } from "services/date";
+import { getDateObj, getDateUtc } from "utils/date";
 
 const getSeniors = getSeniorList;
 

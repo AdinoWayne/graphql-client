@@ -11,9 +11,9 @@ import SeniorRegistrationPopup from "views/management/components/Senior/SeniorRe
 import DeviceFilterDate from 'views/management/components/DeviceFilterDate';
 import { ManagementContext } from 'contexts/ManagementContext';
 import { useHistory } from 'react-router-dom';
-import { useDeleteListSenior } from "services/seniors/seniorService";
+import { useDeleteListSenior } from "services/seniorService";
 import format from 'date-fns/format';
-import { Senior } from 'services/types';
+import { Senior } from 'utils/types';
 
 const SeniorList: React.FC = () => {
     const history = useHistory();
@@ -132,7 +132,7 @@ const SeniorList: React.FC = () => {
                     dataSource={data && data.searchPosts ? data.searchPosts : []}
                     loading={isFetching}
                     rowSelection={{preserveSelectedRowKeys: true, onChange: handleCheckboxTable}}
-                    rowKey={'wearerId'}
+                    rowKey={'_id'}
                 />
                 <SeniorRegistrationPopup
                     isOpenRegister={isOpenRegister}

@@ -4,13 +4,13 @@ import { Button, Form, Input, Radio, RadioChangeEvent } from "antd";
 import { BiTrash } from "react-icons/bi";
 import { useHistory } from 'react-router-dom';
 import BirthdayPicker from "components/BirthdayPicker/BirthdayPicker";
-import { useGetSpecificSenior, useDeleteListSenior } from "services/seniors/seniorService";
+import { useGetSpecificSenior, useDeleteListSenior } from "services/seniorService";
 import format from 'date-fns/format';
 import { useModifySenior } from "hooks/useModifySenior";
-import { Tag, UserWearers } from "services/types";
+import { Tag, UserWearers } from "utils/types";
 import ConfirmPopup from "views/management/components/dialog/ConfirmPopup";
-import { isNumeric } from "services/string";
-import { phoneValidate } from "services/formServices";
+import { isNumeric } from "utils/string";
+import { phoneValidate } from "utils/formServices";
 
 const formatDate = (date: string) => {
   if (!date) {
@@ -51,8 +51,6 @@ const SeniorDetail: React.FC = () => {
   const { data } = useGetSpecificSenior(id);
 
   const history = useHistory();
-
-  const [devices, setDevices] = useState<{ deviceName: string }[]>([]);
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
   const [isValid, setValid] = useState(true);
   
@@ -80,7 +78,6 @@ const SeniorDetail: React.FC = () => {
       //chỉ set device lần đầu
       if (!once.current) {
         if (data.data.devices) {
-          setDevices(data.data.devices);
           once.current = true;
         }
       }

@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react"
+import React from "react"
 import { Input as AntInput } from 'antd';
 import styled from "styled-components";
 type Props = React.ComponentProps<typeof AntInput>
-const InputSearch = (props: Props) => {
+const InputSearch = (props: Props):React.ReactElement => {
     return (
         <>
             <StyledInput {...props} prefix={<span className="icon icon-search" />} allowClear/>

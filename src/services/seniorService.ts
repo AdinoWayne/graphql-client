@@ -1,7 +1,7 @@
 import graphql from "api.graphql";
 import api from "api";
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "react-query";
-import { IPostResponse, SpecialSeniorResponse, StoreRequest, StoreResponse } from "services/types";
+import { IPostResponse, SpecialSeniorResponse, StoreRequest, StoreResponse } from "utils/types";
 import { notification } from "antd";
 
 export const addSeniorAPI = async (value: string): Promise<StoreResponse> => {

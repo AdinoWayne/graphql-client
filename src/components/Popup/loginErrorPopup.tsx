@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Button from "components/Button/Button";
 
@@ -7,7 +7,7 @@ interface Props {
   message2: string;
   handleClose(): any;
 }
-const LoginErrorPopup = (props: Props) => {
+const LoginErrorPopup:React.FC<Props> = (props: Props) => {
   return (
     <ErrorContainer>
       <ErrorTitle>Log in Error</ErrorTitle>

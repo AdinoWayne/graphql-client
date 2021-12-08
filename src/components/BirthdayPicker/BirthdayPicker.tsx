@@ -2,8 +2,8 @@ import { Modal, Space } from 'antd';
 import Button from 'components/Button/Button';
 import { format } from 'date-fns';
 import React, { useCallback, useState, useEffect } from 'react';
-import { MONTHS } from 'services/constants';
-import { getDateObj, isInvalidDate } from 'services/date';
+import { MONTHS } from 'utils/constants';
+import { getDateObj, isInvalidDate } from 'utils/date';
 import styled from 'styled-components';
 import Picker from './Picker';
 
@@ -12,20 +12,12 @@ interface BirthdayPickerProps {
     birthday: string | null;
 }
 
-const BirthdayPicker = ({ setBirthday, birthday }: BirthdayPickerProps) => {
+const BirthdayPicker:React.FC<BirthdayPickerProps> = ({ setBirthday, birthday }: BirthdayPickerProps) => {
 
     const [visible, setVisible] = useState(false);
     const [day, setDay] = useState<number | null>(15);
     const [month, setMonth] = useState<number | null>(4);
     const [year, setYear] = useState<number | null>(1950);
-
-    // const invalid = isInvalidDate(date);
-
-    // const [currentDate, setCurrentDate] = useState( invalid ? null: new Date(date));
-    // useEffect(() => {
-    //     setCurrentDate(new Date(date));
-    // }, [date])
-
    
     useEffect(() => {
         const date = getDateObj(birthday);

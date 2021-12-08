@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Space } from 'antd';
 import Button from 'components/Button/Button';
-import { useQueryString, useSetMultiQueryParam } from 'services/queryString';
+import { useQueryString, useSetMultiQueryParam } from 'utils/queryString';
 import InputSearch from 'components/Input/InputSearch';
 interface SearchboxProps {
     paramName: string;

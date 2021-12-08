@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import {
   checkEmailOrPhoneValidate,
   checkPasswordValidate,
-} from "services/formServices";
+} from "utils/formServices";
 import LoginErrorPopup from "components/Popup/loginErrorPopup";
 import "./style.scss";
 interface User {

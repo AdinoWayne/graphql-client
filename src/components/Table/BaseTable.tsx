@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Col, Pagination, Space, Table, TableProps } from 'antd';
-import { useQueryNumber, useSetQueryParam } from 'services/queryString';
+import { Button, Col, Space, Table, TableProps } from 'antd';
+import { useQueryNumber, useSetQueryParam } from 'utils/queryString';
 import styled from 'styled-components';
 import CustomPagination from "components/Pagination/CustomPagination";
 

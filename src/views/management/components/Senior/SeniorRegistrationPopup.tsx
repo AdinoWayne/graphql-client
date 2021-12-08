@@ -2,7 +2,7 @@ import { Button, Input, Modal, Row, Space, Typography } from 'antd';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { useStoreSenior } from 'services/seniors/seniorService';
+import { useStoreSenior } from 'services/seniorService';
 interface PostRegistrationPopupProps {
     isOpenRegister: boolean;
     setRegisterSenior: Function;
