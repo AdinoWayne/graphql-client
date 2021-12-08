@@ -8,7 +8,6 @@ import { useGetSpecificSenior, useDeleteListSenior } from "services/seniors/seni
 import format from 'date-fns/format';
 import { useModifySenior } from "hooks/useModifySenior";
 import { Tag, UserWearers } from "services/types";
-import SeniorDeviceList from "./SeniorDeviceList";
 import ConfirmPopup from "views/management/components/dialog/ConfirmPopup";
 import { isNumeric } from "services/string";
 import { phoneValidate } from "services/formServices";
@@ -283,14 +282,6 @@ const SeniorDetail: React.FC = () => {
               placeholder="kg"
               onChange={(e) => handleInputChange(e)}
               className="edit-input-item"
-            />
-          </Form.Item>
-        </SeniorItem>
-        <SeniorItem>
-          <Form.Item label="[Device List]">
-            <SeniorDeviceList
-              devices={devices}
-              wearerId={id}
             />
           </Form.Item>
         </SeniorItem>

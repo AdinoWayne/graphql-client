@@ -2,7 +2,6 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import { Tabs } from 'antd';
 import styled from 'styled-components';
-import DeviceList from 'views/management/components/DeviceList'
 import ManagementProvider from 'contexts/ManagementContext';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import SeniorList from 'views/management/components/Senior/SeniorList';
@@ -13,10 +12,6 @@ const componentTabs = [
   {
       key: 'seniors',
       title: 'Senior',
-  },
-  {
-      key: 'devices',
-      title: 'Device',
   }
 ];
 
@@ -27,7 +22,7 @@ const Management: React.FC = () => {
     const changeTab = (key: string) => {
       history.push('/management/'+key)
     }
-    const defaultActiveKey = '/management/devices' === history.location.pathname ? 'devices' : 'seniors';
+    const defaultActiveKey = 'seniors';
     return (
       <ManagementProvider>
         <ManagementContainer>
@@ -40,7 +35,6 @@ const Management: React.FC = () => {
             })}
           </Tabs>
           <Switch>
-            <Route exact path="/management/devices" component={DeviceList} />
             <Route exact path="/management/seniors" component={SeniorList} />
             <Redirect to={'/management/seniors'} />
           </Switch>

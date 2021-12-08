@@ -3,7 +3,7 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { useStoreSenior } from 'services/seniors/seniorService';
-interface DeviceRegistrationPopupProps {
+interface PostRegistrationPopupProps {
     isOpenRegister: boolean;
     setRegisterSenior: Function;
     runRegister?: Function;
@@ -13,7 +13,7 @@ const SeniorRegistrationPopup = ({
     isOpenRegister,
     setRegisterSenior,
     runRegister
-}:DeviceRegistrationPopupProps):React.ReactElement => {
+}:PostRegistrationPopupProps):React.ReactElement => {
     
     const handleChangeText = (e: ChangeEvent<HTMLInputElement>) => {
         let val = e.target.value;
