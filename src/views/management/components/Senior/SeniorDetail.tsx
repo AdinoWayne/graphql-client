@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Avatar, Button, Card, Divider, Input, Typography, Space, Spin } from "antd";
+import { Avatar, Button, Card, Divider, Input, Typography, Spin } from "antd";
 import { useHistory } from 'react-router-dom';
 import { useGetSpecificSenior, useDeleteListSenior } from "services/seniorService";
 import { useModifySenior } from "hooks/useModifySenior";
@@ -8,7 +8,6 @@ import ConfirmPopup from "views/management/components/dialog/ConfirmPopup";
 import Meta from "antd/lib/card/Meta";
 import {
   LikeOutlined,
-  DislikeOutlined,
   CommentOutlined,
   DeleteOutlined
 } from '@ant-design/icons';

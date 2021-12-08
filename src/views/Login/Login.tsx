@@ -48,10 +48,6 @@ const Login: React.FC = () => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleForgotPassword = () => {
-    // display popup
-  };
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };

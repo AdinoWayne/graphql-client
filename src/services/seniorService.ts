@@ -8,11 +8,19 @@ export const addSeniorAPI = async (value: string): Promise<StoreResponse> => {
 	if (!value) {
 		return Promise.reject(new Error("Invalid parameter"));
 	}
+	const query = `
+		mutation($params: postInput) {
+			storePost(input: $params) { _id }
+		}
+	`;
+	const variables = {
+		params : {
+			text: value,
+		},
+	};
+	const response = await graphql.request(query, variables);
+	return response;
 
-    const { data } = await api.post(
-        `/seniors/create`, { name: value}
-    );
-    return data;
 };
 
 export const getSeniorList = async (queryString: string): Promise<IPostResponse> => {
@@ -84,7 +92,7 @@ export const useStoreSenior = (): UseMutationResult<StoreResponse, any, StoreReq
 	  onSuccess: () => {
 		queryClient.invalidateQueries("seniors");
 		notification.success({
-			message:'Create senior',
+			message:'Create Post',
 			description:'Added successfully!'
 		});
 	  },
