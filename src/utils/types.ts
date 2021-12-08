@@ -168,7 +168,6 @@ export interface IPostResponse {
   posts?: Array<IPost>;
   searchPosts?: Array<IPost>;
 }
-export interface SpecialSeniorResponse {
-  status: number;
-  data: Senior;
+export interface ISpecialPostResponse {
+  post: IPost;
 }

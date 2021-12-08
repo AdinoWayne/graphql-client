@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom';
 const componentTabs = [
   {
       key: 'seniors',
-      title: 'Senior',
+      title: 'Posts',
   }
 ];
 

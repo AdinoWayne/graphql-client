@@ -63,7 +63,9 @@ const SeniorList: React.FC = () => {
           dataIndex: 'action',
           render: (_text: string, row: any) => (
             <Space className="table-col-more">
-                <Button onClick={() => history.push('/management/seniors/' + row.wearerId)}>{LANG.LABEL_BUTTON_DETAIL}</Button>
+                <Button onClick={
+                    () => history.push('/management/seniors/' + row._id)
+                }>{LANG.LABEL_BUTTON_DETAIL}</Button>
                 <RightOutlined />
             </Space>
           ),

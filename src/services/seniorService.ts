@@ -1,7 +1,7 @@
 import graphql from "api.graphql";
 import api from "api";
 import { useMutation, UseMutationResult, useQuery, useQueryClient } from "react-query";
-import { IPostResponse, SpecialSeniorResponse, StoreRequest, StoreResponse } from "utils/types";
+import { IPostResponse, ISpecialPostResponse, StoreRequest, StoreResponse } from "utils/types";
 import { notification } from "antd";
 
 export const addSeniorAPI = async (value: string): Promise<StoreResponse> => {
@@ -20,6 +20,7 @@ export const getSeniorList = async (queryString: string): Promise<IPostResponse>
 	const arrQuery = ['name', 'page', 'startDate', 'endDate']
 	if (queryString) {
 		let queryURl = new URLSearchParams(queryString);
+		// eslint-disable-next-line array-callback-return
 		arrQuery.map(element => {
 			if (queryURl.get(element)) {
 				params.push({
@@ -93,15 +94,34 @@ export const useStoreSenior = (): UseMutationResult<StoreResponse, any, StoreReq
 // Get senior by id
 const getSeniorById = async (
 	seniorId?: string | undefined
-  ): Promise<SpecialSeniorResponse> => {
+  ): Promise<ISpecialPostResponse> => {
 	if (!seniorId) {
-	  return Promise.reject(new Error("Invalid senior Id"));
+	  return Promise.reject(new Error("Invalid postId"));
 	}
-	const { data } = await api.get(`/seniors/${seniorId}`);
+	const query:string = `query($id: ID!) {
+		post(_id: $id) {
+			_id
+			name
+			text
+			date
+			likes {
+				_id
+			}
+			comments {
+				_id
+				text
+				name
+				avatar
+				date
+			}
+		}
+	}`;
+
+	const response = await graphql.request(query, { id: seniorId});
+
+	return response;
+};
   
-	return data;
-  };
-  
-  export function useGetSpecificSenior(id: string) {
-	return useQuery(["specificSenior", id], () => getSeniorById(id));
+export function useGetSpecificSenior(id: string) {
+	return useQuery(["specificSenior", id], () => getSeniorById(id), { retry: 1, refetchOnWindowFocus: false, keepPreviousData: true });
 }
