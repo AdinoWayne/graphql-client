@@ -6,6 +6,7 @@ import { useGetSpecificSenior, useDeleteListSenior } from "services/seniorServic
 import { useModifySenior, usePostLike } from "hooks/useModifySenior";
 import ConfirmPopup from "views/management/components/dialog/ConfirmPopup";
 import Meta from "antd/lib/card/Meta";
+import ws from 'ws.client.graphql';
 import {
   LikeOutlined,
   CommentOutlined,
@@ -23,6 +24,21 @@ const SeniorDetail: React.FC = () => {
 
   const { mutate: modifySenior, isLoading: modifyLoading } = useModifySenior();
   const { mutate: modifyLike, isLoading: likeLoading } = usePostLike();
+
+  ws.subscribe({
+    query: 'subscription { commentAdded }',
+  },
+  {
+    next: (data) => {
+      console.log('data', data);
+    },
+    error: (error) => {
+      console.error('error', error);
+    },
+    complete: () => {
+      console.log('no more greetings');
+    },
+  })
 
   const { data, isFetching } = useGetSpecificSenior(id);
 
@@ -99,7 +115,7 @@ const SeniorDetail: React.FC = () => {
         <div style={{ marginBottom: 20 }}>
           <Meta
             avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-            title="Name Viewer"
+            title={post.name}
             description={format(new Date(post.date), 'LLL dd yyyy, hh:mmaaa')}
           />
         </div>
