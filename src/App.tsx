@@ -15,6 +15,8 @@ import routes from 'routes';
 import Layout from 'components/Layout/Layout';
 import Login from 'views/Login/Login';
 import queryClient from 'queryClient';
+import ws from 'ws.graphql';
+import { ApolloProvider } from '@apollo/client';
 
 function App() {
     return (
@@ -29,9 +31,11 @@ function App() {
                                 <Login />
                             </Route>
                             <Route path="/">
-                                <QueryClientProvider client={queryClient}>
-                                    <Layout />
-                                </QueryClientProvider>
+                                <ApolloProvider client={ws}>
+                                    <QueryClientProvider client={queryClient}>
+                                        <Layout />
+                                    </QueryClientProvider>
+                                </ApolloProvider>
                             </Route>
                             <Redirect to={'/home'} />
                         </Switch>

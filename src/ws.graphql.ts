@@ -4,7 +4,7 @@ import { setContext } from '@apollo/client/link/context';
 import { split, HttpLink } from "@apollo/client";
 import { getMainDefinition } from "@apollo/client/utilities";
 
-const WS_URL = `ws://localhost:5000/api/graphql/`;
+const WS_URL = `ws://localhost:5000/subscriptions`;
 const BASE_GRAPHQL_URL = `http://localhost:5000/api/graphql/`;
 const token = localStorage.getItem("accessToken");
 // ... or create a GraphQL client instance to send requests

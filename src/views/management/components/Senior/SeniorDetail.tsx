@@ -6,7 +6,7 @@ import { useGetSpecificSenior, useDeleteListSenior } from "services/seniorServic
 import { useModifySenior, usePostLike } from "hooks/useModifySenior";
 import ConfirmPopup from "views/management/components/dialog/ConfirmPopup";
 import Meta from "antd/lib/card/Meta";
-import ws from 'ws.client.graphql';
+import { useSubscription, gql } from "@apollo/client";
 import {
   LikeOutlined,
   CommentOutlined,
@@ -15,6 +15,18 @@ import {
 import format from 'date-fns/format';
 
 const { TextArea } = Input;
+
+const USER_SUBSCRIPTION = gql`
+  subscription($postId: ID!) {
+    commentAdded(postId: $postId) {
+      _id
+      name
+      avatar
+      date
+      text
+    }
+  }
+`;
 
 const SeniorDetail: React.FC = () => {
   const url = window.location.pathname;
@@ -25,20 +37,19 @@ const SeniorDetail: React.FC = () => {
   const { mutate: modifySenior, isLoading: modifyLoading } = useModifySenior();
   const { mutate: modifyLike, isLoading: likeLoading } = usePostLike();
 
-  ws.subscribe({
-    query: 'subscription { commentAdded }',
-  },
-  {
-    next: (data) => {
-      console.log('data', data);
-    },
-    error: (error) => {
-      console.error('error', error);
-    },
-    complete: () => {
-      console.log('no more greetings');
-    },
-  })
+  const {
+    data: _subscriptionData,
+    loading: _subscriptionLoading,
+  } = useSubscription(USER_SUBSCRIPTION, {
+    variables: { postId: id },
+    onSubscriptionData: (data) => {
+      console.log(data);
+      setPost(prePost => ({
+        ...prePost,
+        comments: [data.subscriptionData.data.commentAdded, ...prePost.comments]
+      }));
+    }
+  });
 
   const { data, isFetching } = useGetSpecificSenior(id);
 
