@@ -174,3 +174,61 @@ export const storeLike = async (postId: string): Promise<ISpecialPostResponse> =
 	const response = await graphql.request(query, variables);
 	return response;
 }
+
+// Get senior by id
+const getEvent = async (): Promise<any> => {
+	const query:string = `query{
+		event {
+			_id
+			userId
+			events {
+				_id
+				postId
+				type
+				isRead
+				date
+			}
+		}
+	}`;
+
+	const response = await graphql.request(query, {});
+
+	return response;
+};
+  
+export function useEvent() {
+	return useQuery(["event"], () => getEvent(), { retry: 1, refetchOnWindowFocus: false, keepPreviousData: true });
+}
+
+const destroyComment = async (postId: string, commentId: string): Promise<{ status: number; data: string}> => {
+	if (!postId) {
+		return Promise.reject(new Error("Invalid parameter"));
+	}
+	const query:string = `mutation($postId: ID!, $commentId: ID!) {
+		destroyComment(postId: $postId, commentId: $commentId) {
+			_id
+		}
+	}`;
+	const variables = {
+		postId: postId,
+		commentId: commentId
+	};
+	const response = await graphql.request(query, variables);
+	return response;
+};
+
+export const useDestroyComment = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation((data: any) => destroyComment(data.postId, data.commentId), {
+		onSuccess: () => {
+            queryClient.invalidateQueries("specificSenior");
+		},
+		onError: () => {
+            notification.error({
+                message:'Delete Comment',
+                description:'Delete Comment error'
+            })
+        }
+	});
+};

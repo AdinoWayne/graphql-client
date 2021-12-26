@@ -1,7 +1,7 @@
 import axios from "axios";
 import { notification } from "antd";
 
-export const BASE_URL = `http://localhost:5000/api`; //QA
+export const BASE_URL = `http://localhost:5000`; //QA
 
 const instance = axios.create({
     baseURL: BASE_URL,

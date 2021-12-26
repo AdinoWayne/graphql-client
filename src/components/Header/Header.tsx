@@ -1,8 +1,9 @@
 import React from 'react';
-import { Layout as AntLayout, Row, Col, Typography } from 'antd';
+import { Layout as AntLayout, Row, Col, Typography, Menu, Dropdown } from 'antd';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Button from 'components/Button/Button';
+import { useEvent } from 'services/seniorService';
 
 interface UserLogin {
     isLogin: boolean,
@@ -18,6 +19,31 @@ const Header: React.FC = () => {
             name: localStorage.getItem('user')
         }
     }
+
+    const { data } = useEvent();
+    const menu = () => {
+        if (!(data && data.event && data.event.events.length > 0)) {
+            return (<></>);
+        }
+        return (
+            <Menu>
+                {
+                    data.event.events.map(element => (
+                        <Menu.Item key={element._id}>
+                            <Typography>
+                            {
+                                element.type === 'LIKE' ?
+                                `Someone like your post(${element.postId.toString()})` :
+                                `Someone comment your post(${element.postId.toString()})`
+                            }
+                            </Typography>
+                        </Menu.Item>
+                    ))
+                }
+            </Menu>
+        )
+    };
+
     return (
         <>
             <HeaderContainer
@@ -38,7 +64,9 @@ const Header: React.FC = () => {
                             </ColLogin>
                         </Row>
                         <ColRightTop>
-                            <SupportButton>{LANG.TEXT_MY_PAGE}</SupportButton>
+                            <Dropdown overlay={menu} placement="bottomRight">
+                                <Button className='notification'>{LANG.TEXT_NOTIFICATIONS}</Button>
+                            </Dropdown>
                         </ColRightTop>
                     </Col>
                 </Row>
@@ -67,6 +95,14 @@ const HeaderContainer = styled(AntLayout.Header)`
     background-color: #f6f6f6;
     border-bottom: 1px solid #e7e7e7;
     height: 90px;
+    & .notification-number {
+        margin-left: 5px;
+        border-radius: 50%;
+        width: 15px;
+        font-size: 9px;
+        background-color: #ff6865;
+        color: #fff;
+    }
 `
 
 const ColLogin = styled(({children, ...rest}) => <Col {...rest} >{children}</Col>)`
@@ -85,10 +121,6 @@ const ColRightTop = styled(({children, ...rest}) => <Col {...rest} >{children}</
     & button {
         margin-left: 5px
     }
-`
-
-const SupportButton = styled(({children, ...rest}) => <Button {...rest} >{children}</Button>)`
-    color: #0bd50b
 `
 
 export default Header;

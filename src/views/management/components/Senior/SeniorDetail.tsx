@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Avatar, Button, Card, Divider, Input, Typography, Spin } from "antd";
+import { Avatar, Button, Card, Divider, Input, Typography, Spin, Comment, Tooltip } from "antd";
 import { useHistory } from 'react-router-dom';
-import { useGetSpecificSenior, useDeleteListSenior } from "services/seniorService";
+import { useGetSpecificSenior, useDeleteListSenior, useDestroyComment } from "services/seniorService";
 import { useModifySenior, usePostLike } from "hooks/useModifySenior";
 import ConfirmPopup from "views/management/components/dialog/ConfirmPopup";
 import Meta from "antd/lib/card/Meta";
@@ -33,6 +33,8 @@ const SeniorDetail: React.FC = () => {
   const id = url.substring(url.lastIndexOf('/') + 1);
 
   const { isLoading: deleteLoading, mutate: removeSeniors } = useDeleteListSenior();
+
+  const {  mutate: removeComment } = useDestroyComment();
 
   const { mutate: modifySenior, isLoading: modifyLoading } = useModifySenior();
   const { mutate: modifyLike, isLoading: likeLoading } = usePostLike();
@@ -138,12 +140,21 @@ const SeniorDetail: React.FC = () => {
         <Divider />
         {
           post.comments.length > 0 ? post.comments.map(element => 
-            <Meta
+            <Comment
               key={element._id}
-              avatar={<Avatar src={element.avatar} />}
+              actions={[<span
+                key="comment-basic-reply-to"
+                onClick={() => removeComment({postId: post._id, commentId: element._id})}>Delete</span>
+              ]}
               style={{ marginBottom: 10 }}
-              title={element.name}
-              description={element.text}
+              author={element.name}
+              avatar={<Avatar src={element.avatar} />}
+              content={element.text}
+              datetime={
+                <Tooltip title={format(new Date(post.date), 'LLL dd yyyy, hh:mmaaa')}>
+                  <span>{format(new Date(post.date), 'LLL dd yyyy, hh:mmaaa')}</span>
+                </Tooltip>
+              }
             />
           ) : null
         }
